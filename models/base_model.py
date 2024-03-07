@@ -32,8 +32,8 @@ class BaseModel:
 
     def save(self):
         """
-        we added 'storage.save()' to call the save method of
-        the FileStorage instance (storage) to save the data to the file.
+        we added 'storage.save()' to call save method of
+        the FileStorage instance (storage) to save  the data to the file.
         also helps to Link BaseModel to FileStorage:
         """
 
@@ -41,9 +41,9 @@ class BaseModel:
 
 
     def to_dict(self):
-        """
-        return: a dictionary containing all keys/values of __dict__ of the instance
-        """
+        '''
+        return: a dictionary containing  all keys/values of __dict__ of the instance
+        '''
         dic = {}
 
         dic["__class__"] = self.__class__.__name__
