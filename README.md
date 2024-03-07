@@ -2,8 +2,8 @@
 
 ## Learning Objectives
 
-* How to create a Python package
-* How to create a command interpreter in Python using the cmd module
+* How to make a Python package
+* How to make a command interpreter in Python using the cmd module
 * What is Unit testing and how to implement it in a large project
 * How to serialize and deserialize a Class
 * How to write and read a JSON file
