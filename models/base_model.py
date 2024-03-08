@@ -15,6 +15,7 @@ class BaseModel:
         If it's a new instance, add a call to the new method on the storage instance
         to add the object to the __objects dictionary.
         """
+        from models import storage
 
         if kwargs:
             del kwargs["__class__"]
@@ -28,7 +29,7 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-        
+            storage.new(self)
 
     def save(self):
         """
@@ -36,8 +37,10 @@ class BaseModel:
         the FileStorage instance (storage) to save  the data to the file.
         also helps to Link BaseModel to FileStorage:
         """
+        from models import storage
 
         self.updated_at = datetime.now()
+        storage.save()
 
 
     def to_dict(self):
