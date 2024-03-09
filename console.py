@@ -5,7 +5,9 @@ from models import storage
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
-    my_class = ["BaseModel", "User", "State", "City", "Amenity", "Place", "Review"]
+    my_class = ["BaseModel", "User", "State",
+                "City", "Amenity",
+                "Place", "Review"]
 
     def do_create(self, arg):
         """
@@ -32,13 +34,11 @@ class HBNBCommand(cmd.Cmd):
             n = []
             for k in storage.all().keys():
                 instance = storage.all()[k]
-                # if hasattr(instance, "__class__") and instance.__class__.__name__ == arg:
                 if instance.__class__.__name__ == arg:
                     n.append(str(instance))
             print(n)
         else:
             print("** class doesn't exist **")
-
 
     def do_show(self, arg):
         """
@@ -58,7 +58,6 @@ class HBNBCommand(cmd.Cmd):
                 print(storage.all()[key])
             else:
                 print('** no instance found **')
-
 
     def do_destroy(self, arg):
         """
