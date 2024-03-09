@@ -12,8 +12,8 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """
         in the else clause we added 'storage.new()' to check
-        If it's a new instance, add a call to the new method on the storage instance
-        to add the object to the __objects dictionary.
+        If it's a new instance, add a call to the new method on the
+        storage instance to add the object to the __objects dictionary.
         """
         from models import storage
 
@@ -42,10 +42,9 @@ class BaseModel:
         self.updated_at = datetime.now()
         storage.save()
 
-
     def to_dict(self):
         '''
-        return: a dictionary containing  all keys/values of __dict__ of the instance
+        return: dictionary containing all keys/values of __dict__ of instance
         '''
         dic = {}
 
@@ -58,4 +57,5 @@ class BaseModel:
         return dic
 
     def __str__(self):
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        st = "[{}] ({}) {}".format(type(self).__name__, self.id, self.__dict__)
+        return st

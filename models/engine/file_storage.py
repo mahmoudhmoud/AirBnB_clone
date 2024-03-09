@@ -2,13 +2,20 @@
 """Basemodel : the parent class"""
 import json
 from models.base_model import BaseModel
+from models.user import User
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.state import State
 
 
 class FileStorage:
     """
-    a class that serializes instances to a JSON file and deserializes JSON file to instances.
+    a class that serializes instances to a JSON file and deserializes
+    JSON file to instances.
     private class attributes: __file_path, __objects
-    why we make them private it helps to ensure that the data is stored in a secure place
+    why we make them private it helps to ensure that the data is
+    stored in a secure place
     """
     __file_path = "file.json"
     __objects = {}
