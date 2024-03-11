@@ -10,7 +10,6 @@ from io import StringIO
 
 class TestConsole(unittest.TestCase):
 
-
     def test_moduleDocs(self):
         moduleDoc = __import__("console").__doc__
         self.assertGreater(len(moduleDoc), 0)
