@@ -9,6 +9,10 @@ from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
+    """
+    the class
+
+    """
     prompt = "(hbnb) "
     my_class = ["BaseModel", "User", "State",
                 "City", "Amenity",
@@ -111,6 +115,10 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     do_quit = do_EOF
+
+    def emptyline(self):
+        """empty line command"""
+        pass
 
     def default(self, arg):
         if "." in arg:
