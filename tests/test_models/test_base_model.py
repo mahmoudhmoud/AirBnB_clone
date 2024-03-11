@@ -21,9 +21,9 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsNotNone(self.mod.updated_at)
 
     def test_save(self):
-        pv = self.mod.updated_at
-        cr = self.mod.save()
-        self.assertNotEqual(pv, cr)
+        pv_updated = self.mod.updated_at
+        cr_updated = self.mod.save()
+        self.assertNotEqual(pv_updated, cr_updated)
 
     def test_to_dict(self):
         dic = self.mod.to_dict()
