@@ -39,8 +39,12 @@ class HBNBCommand(cmd.Cmd):
         """
         return:  all string representation of all instances
         """
-        if arg in self.my_class:
-            n = []
+        n = []
+        if len(line) == 0:
+            for objs in storage.all().values():
+                n.append(objs)
+            print(n)
+        elif arg in self.my_class:
             for k in storage.all().keys():
                 instance = storage.all()[k]
                 if instance.__class__.__name__ == arg:
