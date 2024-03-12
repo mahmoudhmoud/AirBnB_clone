@@ -33,16 +33,20 @@ class TestFileStorage(unittest.TestCase):
         self.storage.new(self.base_model)
         self.assertIn("BaseModel.{}".format(self.base_model.id), self.storage.all())
 
-    def test_save_and_reload(self):
+    def test_save(self):
         self.storage._FileStorage__objects = self.objects
         self.storage.save()
-
         self.assertTrue(os.path.exists(self.file_path))
 
-        new_storage = FileStorage()
-        new_storage.reload()
+    def test_reload(self):
+        with self.assertRaises(FileNotFoundError):
+            self.storage.reload()
 
-        self.assertEqual(new_storage.all(), self.objects)
+        self.storage._FileStorage__objects = self.objects
+        self.storage.save()
+        self.storage.reload()
+
+        self.assertEqual(self.storage.all(), self.objects)
 
 if __name__ == "__main__":
     unittest.main()
