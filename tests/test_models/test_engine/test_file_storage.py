@@ -39,13 +39,23 @@ class TestFileStorage(unittest.TestCase):
         self.assertTrue(os.path.exists(self.file_path))
 
     def test_reload(self):
-        file_storage = FileStorage()
-        base_model = BaseModel()
-        file_storage.save()
-        models.storage.reload()
-        objects = file_storage._FileStorage__objects
+    # Save some objects
+    obj1 = User()
+    obj2 = City()
+    obj3 = Place()
+    self.storage.new(obj1)
+    self.storage.new(obj2)
+    self.storage.new(obj3)
+    self.storage.save()
 
-        self.assertIn("BaseModel.{}".format(base_model.id), objects)
+    # Clear objects and reload from the file
+    self.storage._FileStorage__objects = {}
+    self.storage.reload()
+
+    # Verify that the reloaded objects match the saved ones
+    self.assertEqual(self.storage.all(), {'User.{}'.format(obj1.id): obj1,
+                                          'City.{}'.format(obj2.id): obj2,
+                                          'Place.{}'.format(obj3.id): obj3})
 
 if __name__ == "__main__":
     unittest.main()
