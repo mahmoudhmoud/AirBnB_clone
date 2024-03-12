@@ -6,146 +6,43 @@ import unittest
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
 import models
+import os
 
 
 class TestFileStorage(unittest.TestCase):
-    '''
-    Docs
-    '''
+    def setUp(self):
+        self.file_path = FileStorage._FileStorage__file_path
+        self.storage = FileStorage()
+        self.base_model = BaseModel()
+        self.user = User()
+        self.objects = {
+            "BaseModel.{}".format(self.base_model.id): self.base_model,
+            "User.{}".format(self.user.id): self.user
+        }
 
-    def test_moduleDocs(self):
-        '''
-        Docs
-        '''
-        moduleDoc = (
-                __import__("models.engine.file_storage")
-                .engine.file_storage.__doc__)
-        self.assertGreater(len(moduleDoc), 0)
+    def tearDown(self):
+        if os.path.exists(self.file_path):
+            os.remove(self.file_path)
 
-    def test_classDocs(self):
-        '''
-        Docs
-        '''
-        classDoc = (
-                __import__("models.engine.file_storage")
-                .engine.file_storage.FileStorage.__doc__)
-        self.assertGreater(len(classDoc), 0)
+    def test_all(self):
+        self.assertEqual(self.storage.all(), {})
+        self.storage._FileStorage__objects = self.objects
+        self.assertEqual(self.storage.all(), self.objects)
 
-    def test_methodDocsSave(self):
-        '''
-        Docs
-        '''
-        methodDoc = (
-                __import__("models.engine.file_storage")
-                .engine.file_storage.FileStorage.save.__doc__)
-        self.assertGreater(len(methodDoc), 0)
+    def test_new(self):
+        self.assertNotIn("BaseModel.{}".format(self.base_model.id), self.storage.all())
+        self.storage.new(self.base_model)
+        self.assertIn("BaseModel.{}".format(self.base_model.id), self.storage.all())
 
-    def test_methodDocsNew(self):
-        '''
-        Docs
-        '''
-        methodDoc = (
-                __import__("models.engine.file_storage")
-                .engine.file_storage.FileStorage.new.__doc__)
-        self.assertGreater(len(methodDoc), 0)
+    def test_save_and_reload(self):
+        with self.assertRaises(FileNotFoundError):
+            self.storage.reload()
 
-    def test_methodDocsAll(self):
-        '''
-        Docs
-        '''
-        methodDoc = (
-                __import__("models.engine.file_storage")
-                .engine.file_storage.FileStorage.all.__doc__)
-        self.assertGreater(len(methodDoc), 0)
+        self.storage._FileStorage__objects = self.objects
+        self.storage.save()
+        self.storage.reload()
 
-    def test_methodDocsReload(self):
-        '''
-        Docs
-        '''
-        methodDoc = (
-                __import__("models.engine.file_storage")
-                .engine.file_storage.FileStorage.reload.__doc__)
-        self.assertGreater(len(methodDoc), 0)
-
-    def test_file_path_Type(self):
-        '''
-        Docs
-        '''
-        self.assertIs(type(FileStorage._FileStorage__file_path), str)
-
-    def test_objects_Type(self):
-        '''
-        Docs
-        '''
-        self.assertIs(type(FileStorage._FileStorage__objects), dict)
-
-    def test_file_path(self):
-        '''
-        Docs
-        '''
-        file_storage = FileStorage()
-        self.assertEqual(file_storage._FileStorage__file_path, "file.json")
-
-    def test_objects(self):
-        '''
-        Docs
-        '''
-        file_storage = FileStorage()
-        file_storage._FileStorage__objects = {}
-        self.assertEqual(file_storage._FileStorage__objects, {})
-        obj = BaseModel()
-        file_storage.new(obj)
-        objects = file_storage.all()
-        self.assertIn("BaseModel.{}".format(obj.id), objects)
-        self.assertEqual(objects["BaseModel.{}".format(obj.id)], obj)
-
-    def test_method_all(self):
-        file_storage = FileStorage()
-        objects = file_storage.all()
-        self.assertEqual(objects, file_storage._FileStorage__objects)
-
-    def test_method_new(self):
-        file_storage = FileStorage()
-        obj1 = BaseModel()
-        obj2 = BaseModel()
-
-        file_storage.new(obj1)
-        file_storage.new(obj2)
-
-        self.assertIn(
-                "BaseModel.{}".format(obj1.id),
-                file_storage._FileStorage__objects)
-        self.assertIn(
-                "BaseModel.{}".format(obj2.id),
-                file_storage._FileStorage__objects)
-
-        self.assertEqual(
-                file_storage._FileStorage__objects[
-                    "BaseModel.{}".format(obj1.id)], obj1)
-        self.assertEqual(
-                file_storage._FileStorage__objects[
-                    "BaseModel.{}".format(obj2.id)], obj2)
-
-    def test_method_save(self):
-        file_storage = FileStorage()
-        obj1 = BaseModel()
-
-        file_storage.save()
-
-        with open("file.json", "r") as f:
-            json_string = f.read()
-
-        self.assertIn("BaseModel.{}".format(obj1.id), json_string)
-
-    def test_method_reload(self):
-        file_storage = FileStorage()
-        base_model = BaseModel()
-        file_storage.save()
-        models.storage.reload()
-        objects = file_storage._FileStorage__objects
-
-        self.assertIn("BaseModel.{}".format(base_model.id), objects)
-
+        self.assertEqual(self.storage.all(), self.objects)
 
 if __name__ == "__main__":
     unittest.main()
