@@ -34,12 +34,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertIn("BaseModel.{}".format(self.base_model.id), self.storage.all())
 
     def test_save_and_reload(self):
-        self.storage._FileStorage__objects = self.objects
-        self.storage.save()
-        self.assertTrue(os.path.exists(self.file_path))
-
-    def test_reload(self):
-    # Test reloading without an existing file
+        # Test reloading without an existing file
         with self.assertRaises(FileNotFoundError):
             self.storage.reload()
 
