@@ -38,7 +38,7 @@ class TestFileStorage(unittest.TestCase):
         self.storage.save()
         self.assertTrue(os.path.exists(self.file_path))
 
-    def test_method_reload(self):
+    def test_reload(self):
         file_storage = FileStorage()
         base_model = BaseModel()
         file_storage.save()
